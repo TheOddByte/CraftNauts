@@ -1,13 +1,22 @@
 CraftNauts
 ==========
 
-CraftNauts is a 3D multiplayer platformer game.
+CraftNauts is a 3D multiplayer platformer game made with LuaJ.
 
-Info:
+Developers
+========================
+Hellkid98       [Active]
 
-Teams: 4vs4
+nitrogenfingers [Active]
 
-Languages: English
+theoriginalbit  [Active]
 
-Rednet: Yes
+billysback      [Active]
 
+Freack100       [Active]
+
+symmetryc       [Active]
+
+jay5476         [Active]
+
+Vilsol          [Active]
