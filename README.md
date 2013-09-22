@@ -7,7 +7,7 @@ Developers
 ========================
 Hellkid98       [Active] GMT + 1
 
-nitrogenfingers [Active]
+nitrogenfingers [Active] GMT + 10 (with Daylight Savings [I think!])
 
 theoriginalbit  [Active]
 
