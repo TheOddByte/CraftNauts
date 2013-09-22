@@ -4,7 +4,7 @@ Draw the screen.
 Communicate with Map API
 ]]
 
--- I've got a thing I've been working on, how does it look? It's a lot more than just a screen buffer; it's got a whole object system built in :P and it's no where near complete. -Symmetryc (AKA JayJuly)
+-- I've got a thing I've been working on, how does it look? It's a lot more than just a screen buffer; it's got a whole object system built in and x coordinates :P and it's no where near complete (doesn't work yet...). -Symmetryc (AKA JayJuly)
 cache = setmetatable(
 	{
 	},
@@ -98,3 +98,17 @@ class = function()
 		}
 	)
 end
+
+-- Documentation (Yes, I know, it's very convoluted code...)
+--[[
+local Class = buffer.class()
+for i = 1, 10 do
+	for i2 = 1, 10 do
+		Class.background[i][i2][1] = {colors.white, colors.black, ""}
+	end
+end
+local x, y, z = 1, 1, 2
+Class.character[x][y][z] = {colors.white, colors.black, ">"}
+Class()
+-- Background of white is drawn onto screen with black ">" on 1, 1
+]]
