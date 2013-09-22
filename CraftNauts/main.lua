@@ -1,6 +1,6 @@
 path = shell.dir()
 
-function loadAPIs()
+local function loadAPIs()
 	files = fs.list(path .. "/api/")
 	for id, name in pairs(files) do
 		os.loadAPI(path .. "/api/" .. name)
