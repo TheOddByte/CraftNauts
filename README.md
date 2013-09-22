@@ -28,4 +28,4 @@ LBPHacker       [Active]
 
 You can contact me on skype: kevin_killson
 
-- Hellkid98
+// Hellkid98
