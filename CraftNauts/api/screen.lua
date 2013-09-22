@@ -5,6 +5,7 @@ Communicate with Map API
 ]]
 
 -- I've got a thing I've been working on, how does it look? It's a lot more than just a screen buffer; it's got a whole object system built in and x coordinates :P and it's no where near complete (doesn't work yet...). -Symmetryc (AKA JayJuly)
+-- NOTE: Will be adjusted to coding standards soon, documentation is at the bottom of the code.
 cache = setmetatable(
 	{
 	},
