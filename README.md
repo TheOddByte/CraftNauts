@@ -5,7 +5,7 @@ CraftNauts is a 2D multiplayer platformer game made with LuaJ.
 
 Developers
 ========================
-Hellkid98       [Active]
+Hellkid98       [Active] GMT + 1
 
 nitrogenfingers [Active]
 
