@@ -11,5 +11,5 @@ end
 loadAPIs()
 
 --[[
-Initialize Game and run it
-]]
+    Initialize Game and run it
+--]]
