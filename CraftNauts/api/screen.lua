@@ -1,5 +1,5 @@
 --[[
-Buffer the screen.
-Draw the screen.
-Communicate with Map API
-]]
+    Buffer the screen.
+    Draw the screen.
+    Communicate with Map API
+--]]
