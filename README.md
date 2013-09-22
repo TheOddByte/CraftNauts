@@ -16,7 +16,7 @@ Developers
 - theoriginalbit  [Active] GMT + 10 (with Daylight Savings [I think!])
 - billysback      [Active]
 - Freack100       [Active]
-- symmetryc       [Active]
+- symmetryc       [Active] GMT - 5
 - jay5476         [Active]
 - Vilsol          [Active] GMT 0
 - Engineer        [Active]
