@@ -24,3 +24,8 @@ Vilsol          [Active]
 Engineer        [Active]
 
 LBPHacker       [Active]
+
+
+You can contact me on skype: kevin_killson
+
+- Hellkid98
