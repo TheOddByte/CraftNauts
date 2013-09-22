@@ -26,6 +26,9 @@ Engineer        [Active]
 LBPHacker       [Active]
 
 
-You can contact me on skype: kevin_killson
+Contact Information
+=========================
+- Skype: kevin_killson
+- CCforum: http://www.computercraft.info/forums2/index.php?/user/4727-hellkid98/
 
 // Hellkid98
