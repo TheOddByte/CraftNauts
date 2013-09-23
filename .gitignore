@@ -26,6 +26,25 @@
 *.sql
 *.sqlite
 
+# Images #
+##########
+*.png
+*.bmp
+*.jpg
+*.jpeg
+*.gif
+*.tiff
+*.psd
+
+# Website #
+###########
+*.html
+*.shtml
+*.css
+*.js
+*.json
+*.php
+
 # OS generated files #
 ######################
 .DS_Store
