@@ -1,6 +1,26 @@
 path = shell.dir()
 
 --[[
+    Works just like the default assert only allows for a throwback level to be supplied
+
+    @param  condition  any     the condition to check, will trigger assert when nil or false
+    @param  message    string  (optional) the message to error with
+    @param  throwback  number  (optional) the level of error to produce, i.e. which function to blame
+    @return            any     returns what was supplied in order to allow assignment assert statements
+--]]
+function assert(condition, message, throwback)
+  if not condition then
+    --# make sure that we don't get the blame if no level is provided
+    throwback = throwback or 1
+    --# preserve levels of 0 or else make sure we don't get blame
+    throwback = throwback == 0 and 0 or throwback + 1
+    error(message or "assertion failed!", throwback)
+  end
+  return condition
+end
+
+
+--[[
     A read function override that fixes various bugs in the default read as well as allows for a read limit. The mask also now supports multiple character masking.
     All other functionality is the same as the default read function.
 
@@ -10,15 +30,9 @@ path = shell.dir()
     @return             string
 --]]
 function read( _mask, _history, _limit )
-  if _mask and type(_mask) ~= "string" then
-    error("Invalid parameter #1: Expected string, got "..type(_mask), 2)
-  end
-  if _history and type(_history) ~= "table" then
-    error("Invalid parameter #2: Expected table, got "..type(_history), 2)
-  end
-  if _limit and type(_limit) ~= "number" then
-    error("Invalid parameter #3: Expected number, got "..type(_limit), 2)
-  end
+  assert(not _mask or nativeType(_mask) == "string", "Invalid argument #1: Expected string, got "..nativeType(_mask), 2)
+  assert( not _history or nativeType(_history) == "table", "Invalid argument #2: Expected table, got "..nativeType(_history), 2)
+  assert( not _limit or nativeType(_limit) == "number", "Invalid argument #3: Expected number, got "..nativeType(_limit), 2)
  
   term.setCursorBlink(true)
  
