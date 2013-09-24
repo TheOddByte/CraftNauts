@@ -1,0 +1,89 @@
+This is only a temporary file for now, If you don't know how to use the 'handleMenu' function then read this
+- Hellkid98
+
+How to use the 'handleMenu' function
+=====================================
+
+STEP 1: Create a menu table containing the options and functions and destinations to sub-menus
+
+--[[
+Destination explanation: 
+"_back" goes to the last menu you were in
+"_function" shows that there is a function
+"_exit" will exit the program
+--]]
+
+--# Example menu
+someMenuTable = {
+    ["English"] = {
+        
+        [1] = {
+            name = "Exit the program",
+            destination = "_exit",
+        },
+        
+        [2] = {
+            name = "Print function",
+            destination = "_function",
+                ["tFunction"] = {
+                    name = test,
+                        ["args] = {
+                            "Hello World!",
+                            2,
+                            9,
+                        },
+                },
+        },
+    },  
+}
+
+
+
+
+STEP 2: Create a theme file/table
+
+You can either create a table inside your program like this(Change the colors to what you want):
+
+
+
+
+theme = {
+   bColor         = colors.lightGray
+   defaultTextCol = colors.white
+   activeTextCol  = colors.yellow
+   activeBackCol  = colors.gray
+   headerBackCol  = colors.gray
+   headerTextCol  = colors.white
+}
+
+
+
+
+or you can have a theme file that looks like this(Change the colors to what you want):
+
+
+
+     bColor = gray,
+     
+     defaultTextCol = white, 
+     
+     activeTextCol = red, 
+     
+     activeBackCol = black, 
+    
+     headerBackCol = black, 
+     
+     headerTextCol = yellow,
+
+
+
+and then load that file with this function: 
+theme = loadTheme("<Theme_file>")
+
+
+3: Run it and test that it works
+
+handleMenu(someMenuTable,"English",1,theme)
+
+4: ???
+5: Profit! :D
