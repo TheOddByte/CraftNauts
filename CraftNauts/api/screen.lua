@@ -1,4 +1,11 @@
 --[[
+    Disclaimer: I used brackets as coordinate delimiters because when you are using math inside a function,
+    it gets to be really hard to distiguish from which equation is which because of all of the parentheses,
+    so I figured that it would enhance the readability. Can be changed in the future if it causes
+    problems, obviously.
+--]]
+
+--[[
     @@Todo:
     drawCharacter - Communicates with Character API, loads the character image and stores in buffer.
     drawMap       - Communicates with Map API, loads the map and stores in buffer.
