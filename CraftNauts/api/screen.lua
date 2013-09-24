@@ -1,8 +1,13 @@
 --[[
-    Buffer the screen.
-    Draw the screen.
-    Communicate with Map API
+    @@Todo:
+    drawCharacter - Communicates with Character API, loads the character image and stores in buffer.
+    drawMap       - Communicates with Map API, loads the map and stores in buffer.
+    drawBox       - Stores a box in the buffer with specified color and character
+    drawText      - Stores characters in the buffer with specified background and text color.
+    printText     - Same as drawText, but also wraps text to the specified width, or screen edge if unspecified.
+    getPixel      - Reads a pixel from the buffer. This incldes character and text and background color.
 --]]
+
 --[[
     Screen API (WIP), sorry for hacky metatables
     @version 0.1, 23/9/2013, Sym
