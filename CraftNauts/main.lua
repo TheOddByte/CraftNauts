@@ -200,3 +200,18 @@ loadAPIs()
 --[[
     Initialize Game and run it
 --]]
+local function main(...)
+  --# init game
+
+  --# game loop
+
+  --# cleanup
+  return true
+end
+
+--# call the main function passing the runtime arguments to it
+local ok, err = pcall(main, ...)
+
+if not ok and err ~= "Terminated" then
+  --# there has been an error, handle it here, GUI?
+end
