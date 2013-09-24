@@ -1,6 +1,65 @@
 path = shell.dir()
 
 --[[
+    Log API. This API allows calls to write errors, warnings, and information to a log file for later review
+
+    @version 1.0, 24 September 2013, BIT
+    @author  TheOriginalBIT, BIT
+--]]
+do
+  --# os.day/time/clock are used to avoid duplicates
+  local fileName = string.format("/.craftnauts-%s-%s-%s.log", os.day(), os.time(), os.clock())
+
+  local file = fs.open(fileName, "a")
+  file.write("============= LOG START =============")
+  
+  local function logWrite(output)
+    file.write(output)
+    file.flush()
+  end
+  
+  Log = {
+    --[[
+        Logs an error string to the log file with the prefix of [ERROR] and the clock time
+
+        @param  ...  any number of strings (or numbers) to output to the log file
+    --]]
+    e = function(...)
+      logWrite(string.format("[ERROR] %s: %s", os.clock(), table.concat(arg)))
+    end;
+
+    --[[
+        Logs a warning string to the log file with the prefix of [WARNING] and the clock time
+        
+        @param  ...  any number of strings (or numbers) to output to the log file
+    --]]
+    w = function(...)
+      logWrite(string.format("[WARNING] %s: %s", os.clock(), table.concat(arg)))
+    end;
+
+    --[[
+        Logs an information string to the log file with the prefix of [INFORMATION] and the clock time
+        
+        @param  ...  any number of strings (or numbers) to output to the log file
+    --]]
+    i = function(...)
+      logWrite(string.format("[INFO] %s: %s", os.clock(), table.concat(arg)))
+    end;
+
+    --[[
+        Writes the log end and closes the log file handle, should only be used when the program is about to end
+        
+        @param  ...  any number of strings (or numbers) to output to the log file
+    --]]
+    pack = function()
+      logWrite("============== LOG END ==============")
+      file.close()
+    end;
+  }
+end
+
+
+--[[
     Works just like the default assert only allows for a throwback level to be supplied
 
     @param  condition  any     the condition to check, will trigger assert when nil or false
