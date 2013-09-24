@@ -9,7 +9,7 @@
     @author Symmetryc, Sym
 --]]
 
-local xsize, ysize = term.getSize()
+local screenWidth, screenHeight = term.getSize()
 
 --[[
     Variable that buffers all of the information on the screen.
@@ -68,8 +68,8 @@ setPixel = setmetatable({}, {
     also cache the buffer for next comparison.
 --]]
 function drawBuffer()
-  for x = 1, xsize do
-    for y = 1, ysize do
+  for x = 1, screenWidth do
+    for y = 1, screenHeight do
       if buffer[x][y] ~= cache[x][y] then
         term.setCursorPos(x, y)
         term.setTextColor(buffer[x][y].textColor)
