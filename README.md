@@ -19,9 +19,7 @@ Developers
 - symmetryc       [Active] GMT - 5
 - jay5476         [Active]
 - Vilsol          [Active] GMT 0
-- Engineer        [Active]
 - LBPHacker       [Active]
-
 
 Contact Information
 =========================
