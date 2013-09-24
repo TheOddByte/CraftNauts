@@ -5,7 +5,7 @@
     drawBox       - Stores a box in the buffer with specified color and character
     drawText      - Stores characters in the buffer with specified background and text color.
     printText     - Same as drawText, but also wraps text to the specified width, or screen edge if unspecified.
-    getPixel      - Reads a pixel from the buffer. This incldes character and text and background color.
+    #Done getPixel      - Reads a pixel from the buffer. This incldes character and text and background color.
 --]]
 
 --[[
@@ -60,6 +60,26 @@ setPixel = setmetatable({}, {
       __index = function(self2, key2)
         self2[key2] = function(pixelData)
           buffer[key][key2] = pixelData
+        end
+        return self2[key2]
+      end;
+    })
+    return self[key]
+  end;
+})
+
+--[[
+    Used to get pixel data from the buffer.
+    Usage: screen.getPixel[<x coord>][<y coord>]()
+    @param x coord number x coordinate
+    @param y coord number y coordinate
+--]]
+getPixel = setmetatable({}, {
+  __index = function(self, key)
+    self[key] = setmetatable({}, {
+      __index = function(self2, key2)
+        self2[key2] = function(pixelData)
+          return buffer[key][key2]
         end
         return self2[key2]
       end;
