@@ -4,6 +4,7 @@
     @author Symmetryc, Sym
 --]]
 
+--# Variable for containing the screen data
 local cache = setmetatable({}, {
   __index = function(self, key)
     self[key] = setmetatable({}, {
@@ -22,6 +23,11 @@ local cache = setmetatable({}, {
   end;
 })
 
+--[[
+    Function for getting a new buffer object
+    Usage: local buffer = screen.new()
+    @return    table    buffer object
+--]]
 function new()
   return {
     getPixel = function(self, x, y)
