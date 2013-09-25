@@ -3,52 +3,14 @@
     Make informational screens: Health, Abilities.
 
     Missing documentation. Hellkid isn't following the coding standards
+
+    @version 1.0.2, BIT
+    @author  Hellkid98, HK98
+    @author  TheOriginalBIT, BIT
 --]]
 
-
---[[
-    Table saving/loading functions, The convert function turns the whole file into a table
-
-    Missing documentation. Hellkid isn't following the coding standards
---]]
-function getTable(fileName)
-  local file = fs.open(fileName,"r")
-  nTable = textutils.unserialize(file.readAll())
-  file.close()
-  return nTable
-end
-
-
---[[
-    Missing documentation. Hellkid isn't following the coding standards
---]]
-function convertFileToTable(fileName)
-  if fs.exists(fileName) then
-    file = fs.open(fileName,"r")
-    local nTable = {}
-    local line = file.readLine()
-    repeat
-      table.insert(nTable,line)
-      line = file.readLine()
-    until line == nil
-        
-    file.close()
-    return nTable
-  else
-    error("File didn't exist: "..fileName,2)
-  end
-end
-
-
---[[
-    Missing documentation. Hellkid isn't following the coding standards
---]]
-function saveTable(fileName,nTable)
-  file = fs.open(fileName,"w")
-  file.writeLine(textutils.serialize(nTable))
-  file.close()
-end
-
+--# make sure required APIs are loaded before to avoid errors as much as possible
+assert(utils, "GUI API must be loaded after the Utils API", 0)
 
 --[[
     Basic drawing functions
@@ -135,7 +97,7 @@ function loadTheme(destination)
   local colorTable = {}
 
   --# Loading the theme file and converting it into a color table.
-  local menuTheme = convertFileToTable(destination)
+  local menuTheme = utils.convertFileToTable(destination)
 
   --# Now we get the index names for the table
   for i, v in ipairs(menuTheme) do
