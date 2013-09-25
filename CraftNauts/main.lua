@@ -99,6 +99,26 @@ function assert(condition, message, throwback)
   return condition
 end
 
+--[[
+    Safe pairs function, doesn't error when table is nil
+    
+    @param _t table the table to iterate through
+    @return         key
+    @return         value
+--]]
+local function safePairs( _t )
+  --# a table of keys
+  local tKeys = {}
+  for k,v in pairs( _t ) do
+    table.insert(tKeys, k)
+  end
+  local i = 0
+  return function()
+    i = i + 1
+    return tKeys[i], _t[tKeys[i]]
+  end
+end
+
 
 --[[
     A read function override that fixes various bugs in the default read as well as allows for a read limit. The mask also now supports multiple character masking.
