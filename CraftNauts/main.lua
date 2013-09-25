@@ -1,6 +1,19 @@
 path = shell.dir()
 
 --[[
+    Parses the throwback level required for assert and error, making sure to not have the blame cast to the wrong function
+
+    @param  level  number  the desired throwback level before our code overriding
+    @return        number  the new level to throw
+--]]
+local function parseLevel(level)
+  --# make sure that we don't get the blame if no level is provided
+  level = level or 1
+  --# preserve levels of 0 or else make sure we don't get blame
+  return level == 0 and 0 or leve + 1
+end
+
+--[[
     Log API. This API allows calls to write errors, warnings, and information to a log file for later review
 
     @version 1.0, 24 September 2013, BIT
@@ -61,10 +74,12 @@ do
 
   --[[
       An override to error that will make use of the Log API
+
+      @param  (same as default)
   --]]
   function _G.error(msg, lvl)
     Log.e(msg)
-    nativeError(msg, lvl == 0 and 0 or lvl + 1)
+    nativeError(msg, parseLevel(lvl))
   end
 end
 
@@ -79,11 +94,7 @@ end
 --]]
 function assert(condition, message, throwback)
   if not condition then
-    --# make sure that we don't get the blame if no level is provided
-    throwback = throwback or 1
-    --# preserve levels of 0 or else make sure we don't get blame
-    throwback = throwback == 0 and 0 or throwback + 1
-    error(message or "assertion failed!", throwback)
+    error(message or "assertion failed!", parseLevel(throwback))
   end
   return condition
 end
