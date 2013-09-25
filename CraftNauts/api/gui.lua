@@ -142,8 +142,17 @@ local function handleMenu(tMenu,language,mNum,artProperties)
 local menu = tMenu.defMenu --# The default/starting menu you will enter the first time
 local visitedMenus = {}
 
-  while true do
 
+
+  while true do
+      
+	  --# Adding the positions of the options in the menu so we can check where they are on the screen when clicking
+    for i = 1, #tMenu[language][menu] do
+	    tMenu[language][menu][i].sX = w/2 - #tMenu[language][menu][i].name/2
+		tMenu[language][menu][i].fX = w/2 + #tMenu[language][menu][i].name/2
+		tMenu[language][menu][i].y = 5 + i
+	end
+	
  --# We start with drawing the menu, Then we wait for the events
       if artProperties == nil then 
 	      error("Failed, Theme was corrupt/empty",2)
@@ -207,7 +216,11 @@ local visitedMenus = {}
 	                    args = ""
 	                end
 	  
-	                functionName(unpack(tMenu[language][menu][mNum]["tFunction"]["args"])) --# Calling the function from the table
+	                if #args ~= 0 then
+	                    functionName(unpack(args)) --# Calling the function from the table with arguments
+	                else
+					    functionName()
+					end
 	 
 	            elseif tMenu[language][menu][mNum].destination == "_exit" then --# Exiting the program/game if the destionation in the table is "_exit"
 	                term.setTextColor(colors.white) term.setBackgroundColor(colors.black)
@@ -216,6 +229,53 @@ local visitedMenus = {}
 	            end
 	 
             end
+			
+		elseif evt == "mouse_click" then
+		
+		    for i = 1, #tMenu[language][menu] do
+		        if mX >= tMenu[language][menu][i].sX and mX <= tMenu[language][menu][i].fX and mY == tMenu[language][menu][i].y then
+				    if mNum ~= i then
+					    mNum = i
+					    break
+					else
+	                    if tMenu[language][menu][mNum].destination ~= nil and tMenu[language][menu][mNum].destination ~= "_back" and tMenu[language][menu][mNum].destination ~= "_exit" and tMenu[language][menu][mNum].destination ~= "_function" then 
+	                        table.insert(visitedMenus,menu)
+	                        menu = tMenu[language][menu][mNum].destination
+	                        mNum = 1
+	 
+	 
+	                    elseif tMenu[language][menu][mNum].destination == "_back" then --# Going back to the previous menu that you were in
+	                        mNum = 1
+	                        menu = visitedMenus[#visitedMenus]
+	                        table.remove(visitedMenus,#visitedMenus)
+	 
+	                    elseif tMenu[language][menu][mNum].destination == "_function" then
+	                        functionName = tMenu[language][menu][mNum]["tFunction"].name
+	  
+	                        if tMenu[language][menu][mNum]["tFunction"]["args"] ~= nil then
+	                            args = tMenu[language][menu][mNum]["tFunction"]["args"]
+	  
+	                        else
+	                            args = ""
+	                        end
+	                          
+							  if #args ~= 0 then
+	                              functionName(unpack(args)) --# Calling the function from the table with arguments
+	                          else
+							      functionName()
+							  end
+							  
+	                    elseif tMenu[language][menu][mNum].destination == "_exit" then --# Exiting the program/game if the destionation in the table is "_exit"
+	                        term.setTextColor(colors.white) term.setBackgroundColor(colors.black)
+	                        clear()
+	                        error()
+	                    end
+					    
+					  
+					end
+				end
+			end
+			
         end
   end
   
