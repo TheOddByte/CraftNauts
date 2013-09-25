@@ -10,7 +10,7 @@ local function parseLevel(level)
   --# make sure that we don't get the blame if no level is provided
   level = level or 1
   --# preserve levels of 0 or else make sure we don't get blame
-  return level == 0 and 0 or leve + 1
+  return level == 0 and 0 or level + 1
 end
 
 --[[
