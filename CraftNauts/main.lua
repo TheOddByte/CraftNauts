@@ -106,7 +106,7 @@ end
     @return         key
     @return         value
 --]]
-local function safePairs( _t )
+function safePairs( _t )
   --# a table of keys
   local tKeys = {}
   for k,v in pairs( _t ) do
