@@ -3,6 +3,12 @@ CraftNauts
 
 CraftNauts is a 2D multiplayer platformer game made with ComputerCraftLua.
 
+Flowchart for the system
+========================
+Everyone, please read.
+
+http://puu.sh/4zwbl.png
+
 Coding Standards Document
 =========================
 ** All developers please read! **
