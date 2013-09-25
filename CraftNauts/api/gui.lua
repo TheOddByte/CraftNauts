@@ -44,7 +44,9 @@ end
     Missing documentation. Hellkid isn't following the coding standards
 --]]
 function saveTable(fileName,nTable)
-  file = fs.open(fileName,"w"); file.writeLine(textutils.serialize(nTable)); file.close()
+  file = fs.open(fileName,"w")
+  file.writeLine(textutils.serialize(nTable))
+  file.close()
 end
 
 
@@ -54,7 +56,8 @@ end
     Missing documentation. Hellkid isn't following the coding standards
 --]]
 local function drawAt(x,y,text)
-    term.setCursorPos(x,y) write(text)
+  term.setCursorPos(x,y)
+  write(text)
 end
 
 
