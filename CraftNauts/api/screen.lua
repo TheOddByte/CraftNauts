@@ -46,19 +46,19 @@ function new()
 
     --[[
         Function for setting pixel information
-        Usage: buffer:setPixel(x, y, {back, text, char})
+        Usage: buffer:setPixel(x, y, back, text, char)
         @param    x    x coordinate
         @param    y    y coordinate
         @param    back    background color [optional]
         @param    text    text color [optional]
         @param    char    character [optional]
     --]]
-    setPixel = function(self, x, y, data)
+    setPixel = function(self, x, y, back, text, char)
       self[x] = self[x] == nil and {} or self[x]
       self[x][y] = self[x][y] == nil and {} or self[x][y]
-      self[x][y].back = data.back or self[x][y].back or nil
-      self[x][y].text = data.text or self[x][y].text or nil
-      self[x][y].char = data.char or self[x][y].char or nil
+      self[x][y].back = back or self[x][y].back or nil
+      self[x][y].text = text or self[x][y].text or nil
+      self[x][y].char = char or self[x][y].char or nil
     end;
 
     --[[
