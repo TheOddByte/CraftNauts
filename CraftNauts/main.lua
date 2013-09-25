@@ -18,6 +18,8 @@ do
     file.flush()
   end
   
+  --# backup the error so we can restore it later
+  nativeError = _G.error
   Log = {
     --[[
         Logs an error string to the log file with the prefix of [ERROR] and the clock time
@@ -56,6 +58,14 @@ do
       file.close()
     end;
   }
+
+  --[[
+      An override to error that will make use of the Log API
+  --]]
+  function _G.error(msg, lvl)
+    Log.e(msg)
+    nativeError(msg, lvl == 0 and 0 or lvl + 1)
+  end
 end
 
 
@@ -215,3 +225,6 @@ local ok, err = pcall(main, ...)
 if not ok and err ~= "Terminated" then
   --# there has been an error, handle it here, GUI?
 end
+
+Log.close()
+_G.error = nativeError
