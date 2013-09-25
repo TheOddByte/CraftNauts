@@ -29,9 +29,9 @@ function new()
     end;
     setPixel = function(self, x, y, back, text, char)
       self[x] = self[x] == nil and {} or self[x]
-      self[x][y].back = back or self[x][y].back
-      self[x][y].text = text or self[x][y].text
-      self[x][y].char = char or self[x][y].char
+      self[x][y].back = back or self[x][y].back or nil
+      self[x][y].text = text or self[x][y].text or nil
+      self[x][y].char = char or self[x][y].char or nil
     end;
     drawPixel = function(self, x, y)
       if(self[x] ~= nil and self[x][y] ~= nil and self[x][y] ~= cache[x][y]) then
