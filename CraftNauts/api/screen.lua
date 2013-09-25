@@ -30,15 +30,43 @@ local cache = setmetatable({}, {
 --]]
 function new()
   return {
+
+    --[[
+        Function for getting pixel information
+        Usage: local back, text, char = buffer:getPixel(x, y)
+        @param    x    x coordinate
+        @param    y    y coordinate
+        @return    back    background color or false if pixel hasn't been set
+        @return    text    text color
+        @return    char    character
+    --]]
     getPixel = function(self, x, y)
-      return self[x] ~= nil and self[x][y] ~= nil and self[x][y] or false
+      return unpack(self[x] and self[x][y] and {self[x][y].back, self[x][y].color, self[x][y].char} or {false})
     end;
-    setPixel = function(self, x, y, back, text, char)
+
+    --[[
+        Function for setting pixel information
+        Usage: buffer:setPixel(x, y, {back, text, char})
+        @param    x    x coordinate
+        @param    y    y coordinate
+        @param    back    background color [optional]
+        @param    text    text color [optional]
+        @param    char    character [optional]
+    --]]
+    setPixel = function(self, x, y, data)
       self[x] = self[x] == nil and {} or self[x]
-      self[x][y].back = back or self[x][y].back or nil
-      self[x][y].text = text or self[x][y].text or nil
-      self[x][y].char = char or self[x][y].char or nil
+      self[x][y] = self[x][y] == nil and {} or self[x][y]
+      self[x][y].back = data.back or self[x][y].back or nil
+      self[x][y].text = data.text or self[x][y].text or nil
+      self[x][y].char = data.char or self[x][y].char or nil
     end;
+
+    --[[
+        Function for drawing a pixel from the buffer to the screen
+        Usage: buffer:drawPixel(x, y)
+        @param    x    x coordinate
+        @param    y    y coordinate
+    --]]
     drawPixel = function(self, x, y)
       if(self[x] ~= nil and self[x][y] ~= nil and self[x][y] ~= cache[x][y]) then
         term.setCursorPos(x, y)
