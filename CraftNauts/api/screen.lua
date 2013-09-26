@@ -58,7 +58,7 @@ function new()
       self[x][y] = self[x][y] == nil and {} or self[x][y]
       self[x][y].back = back or self[x][y].back or nil
       self[x][y].text = text or self[x][y].text or nil
-      self[x][y].char = char or self[x][y].char or nil
+      self[x][y].char = tostring(char) or self[x][y].char or nil
     end;
 
     --[[
