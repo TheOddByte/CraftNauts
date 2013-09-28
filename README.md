@@ -22,7 +22,7 @@ Developers
 - theoriginalbit  [Active] GMT + 10 (with Daylight Savings [I think!])
 - billysback      [Active]
 - Freack100       [Active]
-- symmetryc       [Active] GMT - 5
+- Symmetryc _     [Active] GMT - 5
 - jay5476         [Active]
 - Vilsol          [Active] GMT 0
 - LBPHacker       [Active]
