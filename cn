@@ -1,3 +1,1 @@
-shell.setDir("CraftNauts")
-shell.run("main.lua")
-shell.setDir("")
+shell.run("/CraftNauts/main.lua")
