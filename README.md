@@ -11,9 +11,7 @@ http://puu.sh/4zwbl.png
 
 Coding Standards Document
 =========================
-** All developers please read! **
-
-[Document on TheOriginalBIT's Dropbox](https://dl.dropboxusercontent.com/u/79980709/Coding%20Standards.pdf)
+Everyone is pissing me off whining about this, so its now gone, go for your life code how ever you want to!
 
 Developers
 ========================
