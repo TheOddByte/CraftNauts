@@ -5,8 +5,7 @@
     @author  TheOriginalBIT, BIT
 --]]
 
-local fileName = "/.craftnauts.log"
-local file = fs.open(fileName, "a")
+local file = fs.open("/craftnauts.log", 'w')
 local nativeError = _G.error
 
 file.write("============= LOG START =============")
@@ -33,7 +32,7 @@ end
 
     @param  ...  any number of strings (or numbers) to output to the log file
 --]]
-e = function(...)
+function e(...)
   local msg = formatMessage("ERROR", ...)
   logWrite(msg)
 end
@@ -43,7 +42,7 @@ end
     
     @param  ...  any number of strings (or numbers) to output to the log file
 --]]
-w = function(...)
+function w(...)
   local msg = formatMessage("WARNING", ...)
   logWrite(msg)
 end
@@ -53,7 +52,7 @@ end
     
     @param  ...  any number of strings (or numbers) to output to the log file
 --]]
-i = function(...)
+function i(...)
   local msg = formatMessage("INFO", ...)
   logWrite(msg)
 end
@@ -63,7 +62,7 @@ end
     
     @param  ...  any number of strings (or numbers) to output to the log file
 --]]
-close = function()
+function close()
   logWrite("============== LOG END ==============")
   file.close()
   _G.error = nativeError
