@@ -5,7 +5,6 @@
     @author  TheOriginalBIT, BIT
 --]]
 
---# os.day/time/clock are used to avoid duplicates
 local fileName = "/.craftnauts.log"
 local file = fs.open(fileName, "a")
 local nativeError = _G.error
@@ -73,7 +72,7 @@ end
 --[[
   An override to error that will make use of the Log API
 
-  @param  (same as default)
+  @param  (same as default error function)
 --]]
 function _G.error(msg, lvl)
   e(msg)

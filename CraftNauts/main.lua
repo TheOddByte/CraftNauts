@@ -201,7 +201,7 @@ end
 local ok, err = pcall(main, ...)
 
 if not ok and err ~= "Terminated" then
-  Log.e("[FATAL] ", err)
+  Log.e("[FATAL]", err)
   --# there has been an error, handle it here, GUI?
 end
 
