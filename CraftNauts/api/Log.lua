@@ -27,7 +27,7 @@ end
 
 local function formatMessage(_type, needsLine, ...)
   local caller = getCaller() --# the calling API
-  local clock = os.clock()
+  local clock = math.ceil(os.clock())
   local msg = table.concat(arg, ' ')
   if needsLine then
     caller = string.format("%s:%d", caller, getCallerLineNumber())
