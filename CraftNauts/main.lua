@@ -1,3 +1,16 @@
+local apisLoadOrder = {
+  "Log.lua",
+  "ai.lua",
+  "char.lua",
+  "gui.lua",
+  "HTTPNetworking.lua",
+  "map.lua",
+  "phx.lua",
+  "player.lua",
+  "screen.lua",
+  "utils.lua",
+}
+
 path = shell.dir()
 
 --[[
@@ -169,11 +182,11 @@ end
 
 --[[
   Loads all files as API's in the API folder
+
   @return boolean
 --]]
 local function loadAPIs()
-  files = fs.list(path .. "/api/")
-  for id, name in pairs(files) do
+  for _, name in pairs(apisLoadOrder) do
     if not os.loadAPI(path .. "/api/" .. name) then 
       return false 
     end
@@ -187,7 +200,9 @@ end
 --]]
 local function main(...)
   --# init game
-  loadAPIs()
+  if not loadAPIs() then
+    return false, "Failed to load APIs"
+  end
 
   --# game loop
 
