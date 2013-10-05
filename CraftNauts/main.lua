@@ -186,8 +186,26 @@ end
   @return boolean
 --]]
 local function loadAPIs()
+  -- better than os.loadAPI as it removes the extension
+  local function loadAPI(path)
+    local name = string.match(fs.getName(path), "(%a+)%.?.-")
+    local env = setmetatable({}, { __index = _G })
+    local func, err = loadfile(path)
+    if not func then
+      return false, printError(err)
+    end
+    setfenv(func, env)
+    func()
+    local api = {}
+    for k,v in pairs(env) do
+      api[k] =  v
+    end
+    _G[name] = api
+    return true
+  end
+
   for _, name in pairs(apisLoadOrder) do
-    if not os.loadAPI(path .. "/api/" .. name) then 
+    if not loadAPI(path .. "/api/" .. name) then 
       return false 
     end
     Log.i("Loading API: " .. name)
