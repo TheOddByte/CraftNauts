@@ -1,0 +1,81 @@
+--[[
+    Log API. This API allows calls to write errors, warnings, and information to a log file for later review
+
+    @version 1.0, 24 September 2013, BIT
+    @author  TheOriginalBIT, BIT
+--]]
+
+--# os.day/time/clock are used to avoid duplicates
+local fileName = "/.craftnauts.log"
+local file = fs.open(fileName, "a")
+local nativeError = _G.error
+
+file.write("============= LOG START =============")
+
+local function logWrite(output)
+  file.write(output)
+  file.flush()
+end
+
+local function getCaller()
+  local ok, err = pcall(error, "", 5)
+  return err:match("(%a+)%.?.-:.-") or "unknown" --# extract file name, remove extension
+end
+
+local function formatMessage(_type, ...)
+  local caller = getCaller() --# the calling API
+  local clock = math.round(os.clock(), 1)
+  local msg = table.concat(arg, ' ')
+  return string.format("[%s] [%s] [%s] %s", _type, caller, clock, msg)
+end
+
+--[[
+    Logs an error string to the log file with the prefix of [ERROR] and the clock time
+
+    @param  ...  any number of strings (or numbers) to output to the log file
+--]]
+e = function(...)
+  local msg = formatMessage("ERROR", ...)
+  logWrite(msg)
+end
+
+--[[
+    Logs a warning string to the log file with the prefix of [WARNING] and the clock time
+    
+    @param  ...  any number of strings (or numbers) to output to the log file
+--]]
+w = function(...)
+  local msg = formatMessage("WARNING", ...)
+  logWrite(msg)
+end
+
+--[[
+    Logs an information string to the log file with the prefix of [INFORMATION] and the clock time
+    
+    @param  ...  any number of strings (or numbers) to output to the log file
+--]]
+i = function(...)
+  local msg = formatMessage("INFO", ...)
+  logWrite(msg)
+end
+
+--[[
+    Writes the log end and closes the log file handle, should only be used when the program is about to end
+    
+    @param  ...  any number of strings (or numbers) to output to the log file
+--]]
+close = function()
+  logWrite("============== LOG END ==============")
+  file.close()
+  _G.error = nativeError
+end
+
+--[[
+  An override to error that will make use of the Log API
+
+  @param  (same as default)
+--]]
+function _G.error(msg, lvl)
+  e(msg)
+  nativeError(msg, parseThrowbackLevel(lvl))
+end

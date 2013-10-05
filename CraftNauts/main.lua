@@ -6,83 +6,12 @@ path = shell.dir()
     @param  level  number  the desired throwback level before our code overriding
     @return        number  the new level to throw
 --]]
-local function parseLevel(level)
+function parseThrowbackLevel(level)
   --# make sure that we don't get the blame if no level is provided
   level = level or 1
   --# preserve levels of 0 or else make sure we don't get blame
   return level == 0 and 0 or level + 1
 end
-
---[[
-    Log API. This API allows calls to write errors, warnings, and information to a log file for later review
-
-    @version 1.0, 24 September 2013, BIT
-    @author  TheOriginalBIT, BIT
---]]
-do
-  --# os.day/time/clock are used to avoid duplicates
-  local fileName = string.format("/.craftnauts-%s-%s-%s.log", os.day(), os.time(), os.clock())
-
-  local file = fs.open(fileName, "a")
-  file.write("============= LOG START =============")
-  
-  local function logWrite(output)
-    file.write(output)
-    file.flush()
-  end
-  
-  --# backup the error so we can restore it later
-  nativeError = _G.error
-  Log = {
-    --[[
-        Logs an error string to the log file with the prefix of [ERROR] and the clock time
-
-        @param  ...  any number of strings (or numbers) to output to the log file
-    --]]
-    e = function(...)
-      logWrite(string.format("[ERROR] %s: %s", os.clock(), table.concat(arg)))
-    end;
-
-    --[[
-        Logs a warning string to the log file with the prefix of [WARNING] and the clock time
-        
-        @param  ...  any number of strings (or numbers) to output to the log file
-    --]]
-    w = function(...)
-      logWrite(string.format("[WARNING] %s: %s", os.clock(), table.concat(arg)))
-    end;
-
-    --[[
-        Logs an information string to the log file with the prefix of [INFORMATION] and the clock time
-        
-        @param  ...  any number of strings (or numbers) to output to the log file
-    --]]
-    i = function(...)
-      logWrite(string.format("[INFO] %s: %s", os.clock(), table.concat(arg)))
-    end;
-
-    --[[
-        Writes the log end and closes the log file handle, should only be used when the program is about to end
-        
-        @param  ...  any number of strings (or numbers) to output to the log file
-    --]]
-    pack = function()
-      logWrite("============== LOG END ==============")
-      file.close()
-    end;
-  }
-
-  --[[
-      An override to error that will make use of the Log API
-
-      @param  (same as default)
-  --]]
-  function _G.error(msg, lvl)
-    Log.e(msg)
-    nativeError(msg, parseLevel(lvl))
-  end
-end
-
 
 --[[
     Works just like the default assert only allows for a throwback level to be supplied
@@ -119,6 +48,23 @@ function safePairs( _t )
   end
 end
 
+--[[
+    Round a number to the decimal place supplied or nearest whole number.
+    Note: trailing 0's will be removed, Lua does this, if printing suggested fix is to use string.format to make sure trailing 0's are present
+
+    @param    number    the number to round
+    @param    number    the decimal place to round to
+    @return   number    the rounded number
+--]]
+function math.round(num, idp) --# BOOM! injected.
+  assert(type(num) == "number", "Arg #1: Expected number, got "..type(num), 2)
+  assert(type(idp) == "number", "Arg #2: Expected number, got "..type(idp), 2)
+  local mult = 10^(idp or 0)
+  if num >= 0 then
+    return math.floor(num * mult + 0.5 ) / mult
+  end
+  return math.ceil(num * mult - 0.5) / mult
+end
 
 --[[
     A read function override that fixes various bugs in the default read as well as allows for a read limit. The mask also now supports multiple character masking.
@@ -231,18 +177,17 @@ local function loadAPIs()
     if not os.loadAPI(path .. "/api/" .. name) then 
       return false 
     end
-    print("Loading: " .. name)
+    Log.i("Loading API: " .. name)
   end
   return true
 end
-
-loadAPIs()
 
 --[[
     Initialize Game and run it
 --]]
 local function main(...)
   --# init game
+  loadAPIs()
 
   --# game loop
 
@@ -250,12 +195,14 @@ local function main(...)
   return true
 end
 
+
+
 --# call the main function passing the runtime arguments to it
 local ok, err = pcall(main, ...)
 
 if not ok and err ~= "Terminated" then
+  Log.e("[FATAL] ", err)
   --# there has been an error, handle it here, GUI?
 end
 
 Log.close()
-_G.error = nativeError
