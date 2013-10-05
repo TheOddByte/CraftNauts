@@ -8,22 +8,30 @@
 local file = fs.open("/craftnauts.log", 'w')
 local nativeError = _G.error
 
-file.write("============= LOG START =============")
-
 local function logWrite(output)
   file.write(output)
   file.flush()
 end
 
+logWrite("============= LOG START =============")
+
 local function getCaller()
-  local ok, err = pcall(error, "", 5)
+  local ok, err = pcall(nativeError, "", 5)
   return err:match("(%a+)%.?.-:.-") or "unknown" --# extract file name, remove extension
 end
 
-local function formatMessage(_type, ...)
+local function getCallerLineNumber()
+  local ok, err = pcall(nativeError, "", 5)
+  return err:match("%a+:(%d+).-") or 0
+end
+
+local function formatMessage(_type, needsLine, ...)
   local caller = getCaller() --# the calling API
-  local clock = math.round(os.clock(), 1)
+  local clock = os.clock()
   local msg = table.concat(arg, ' ')
+  if needsLine then
+    caller = string.format("%s:%d", caller, getCallerLineNumber())
+  end
   return string.format("[%s] [%s] [%s] %s", _type, caller, clock, msg)
 end
 
@@ -33,7 +41,7 @@ end
     @param  ...  any number of strings (or numbers) to output to the log file
 --]]
 function e(...)
-  local msg = formatMessage("ERROR", ...)
+  local msg = formatMessage("ERROR", true, ...)
   logWrite(msg)
 end
 
@@ -43,7 +51,7 @@ end
     @param  ...  any number of strings (or numbers) to output to the log file
 --]]
 function w(...)
-  local msg = formatMessage("WARNING", ...)
+  local msg = formatMessage("WARNING", true, ...)
   logWrite(msg)
 end
 
@@ -53,7 +61,7 @@ end
     @param  ...  any number of strings (or numbers) to output to the log file
 --]]
 function i(...)
-  local msg = formatMessage("INFO", ...)
+  local msg = formatMessage("INFO", false, ...)
   logWrite(msg)
 end
 
