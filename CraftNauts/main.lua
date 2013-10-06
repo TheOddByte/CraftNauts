@@ -1,5 +1,5 @@
 local apisLoadOrder = {
-  -- "Log.lua", -- removed, loaded independently
+  -- Log.lua was removed as it is loaded independently
   "utils.lua",
   "HTTPNetworking.lua",
   "ai.lua",
@@ -184,7 +184,7 @@ local function loadAPIs()
     local env = setmetatable({}, { __index = _G })
     local func, err = loadfile(path)
     if not func or err then
-      error(err, 0)
+      return false, err
     end
     setfenv(func, env)
     func()
@@ -199,8 +199,9 @@ local function loadAPIs()
   local path = getRunningPath()
   
   local function tryLoad(name)
-    if not loadAPI(path.."/api/"..name) then
-      error("Could not load API: Log.lua", 0)
+    local ok, err = loadAPI(path.."/api/"..name)
+    if not ok then
+      error(string.format("Could not load API: %s (%s)", name, err), 0)
     end
   end
 
@@ -235,9 +236,23 @@ end
 --# call the main function passing the runtime arguments to it
 local ok, err = pcall(main, ...)
 
+term.setBackgroundColor(colors.black)
+term.clear()
+term.setCursorPos(1, 1)
+
 if not ok and err ~= "Terminated" then
+  term.setTextColor(colors.white)
+  print("There has been an error in CraftNauts\n")
+  print("Please report this issue to one of the CraftNauts team on the ComputerCraft forums\n")
   print(err)
-  --# there has been an error, handle it here, GUI?
+  return Log.close()
 end
 
+if term.isColor and term.isColour then
+  term.setTextColor(colors.yellow)
+end
+print("Thank you for playing CraftNauts")
+
 Log.close()
+
+sleep(0) -- clear the event queue
