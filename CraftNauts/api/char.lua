@@ -1,10 +1,12 @@
 --[[
-<<<<<<< HEAD
 	Store information about character.
-	Calculate collision volumes.
-	Check for abilities.
-	Check for actions: Jumping, Crouching, etc.
-	
+  Calculate collision volumes.
+  Check for abilities.
+  Check for actions: Jumping, Crouching, etc.
+  Saving character to file.
+  Character movement.
+  Reading other players.
+
 	Example for a character:
 
 	local characters = {}
@@ -121,14 +123,4 @@
 			}
 		}
 	}
-]]
-=======
-    Store information about character.
-    Calculate collision volumes.
-    Check for abilities.
-    Check for actions: Jumping, Crouching, etc.
-    Saving character to file.
-    Character movement.
-    Reading other players.
 --]]
->>>>>>> master

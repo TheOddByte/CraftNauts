@@ -1,29 +1,20 @@
 local apisLoadOrder = {
-  "Log.lua",
+  -- "Log.lua", -- removed, loaded independently
+  "utils.lua",
+  "HTTPNetworking.lua",
   "ai.lua",
   "char.lua",
   "gui.lua",
-  "HTTPNetworking.lua",
   "map.lua",
   "phx.lua",
   "player.lua",
   "screen.lua",
-  "utils.lua",
 }
 
-path = shell.dir()
-
---[[
-    Parses the throwback level required for assert and error, making sure to not have the blame cast to the wrong function
-
-    @param  level  number  the desired throwback level before our code overriding
-    @return        number  the new level to throw
---]]
-function parseThrowbackLevel(level)
-  --# make sure that we don't get the blame if no level is provided
-  level = level or 1
-  --# preserve levels of 0 or else make sure we don't get blame
-  return level == 0 and 0 or level + 1
+function getRunningPath()
+  local rp = shell.getRunningProgram()
+  local nm = fs.getName(rp)
+  return rp:sub(1, #rp - #nm)
 end
 
 --[[
@@ -36,7 +27,7 @@ end
 --]]
 function assert(condition, message, throwback)
   if not condition then
-    error(message or "assertion failed!", parseLevel(throwback))
+    error(message or "assertion failed!", (throwback == 0 and 0 or throwback and (throwback + 1) or 2))
   end
   return condition
 end
@@ -188,11 +179,12 @@ end
 local function loadAPIs()
   -- better than os.loadAPI as it removes the extension
   local function loadAPI(path)
+    assert(fs.exists(path), "File not found: "..path, 0)
     local name = string.match(fs.getName(path), "(%a+)%.?.-")
     local env = setmetatable({}, { __index = _G })
     local func, err = loadfile(path)
-    if not func then
-      return false, printError(err)
+    if not func or err then
+      return false, error(err, 0)
     end
     setfenv(func, env)
     func()
@@ -204,11 +196,19 @@ local function loadAPIs()
     return true
   end
 
-  for _, name in pairs(apisLoadOrder) do
-    if not loadAPI(path .. "/api/" .. name) then 
-      return false 
+  local path = getRunningPath()
+  
+  local function tryLoad(name)
+    if not loadAPI(path.."/api/"..name) then
+      error("Could not load API: Log.lua", 0)
     end
+  end
+
+  tryLoad("Log.lua") -- has to be loaded independantly so the loop doesn't error
+  
+  for _, name in pairs(apisLoadOrder) do
     Log.i("Loading API: " .. name)
+    tryLoad(name)
   end
   return true
 end
@@ -222,6 +222,8 @@ local function main(...)
     return false, "Failed to load APIs"
   end
 
+  Log.i("Initializing game")
+
   --# game loop
 
   --# cleanup
@@ -234,7 +236,7 @@ end
 local ok, err = pcall(main, ...)
 
 if not ok and err ~= "Terminated" then
-  Log.e("[FATAL]", err)
+  print(err)
   --# there has been an error, handle it here, GUI?
 end
 

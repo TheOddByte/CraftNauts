@@ -9,19 +9,21 @@ local file = fs.open("/craftnauts.log", 'w')
 local nativeError = _G.error
 
 local function logWrite(output)
-  file.write(output)
+  file.writeLine(output)
   file.flush()
 end
 
 logWrite("============= LOG START =============")
 
+local callerThrowback = 5
+
 local function getCaller()
-  local ok, err = pcall(nativeError, "", 5)
+  local ok, err = pcall(nativeError, "", callerThrowback)
   return err:match("(%a+)%.?.-:.-") or "unknown" --# extract file name, remove extension
 end
 
 local function getCallerLineNumber()
-  local ok, err = pcall(nativeError, "", 5)
+  local ok, err = pcall(nativeError, "", callerThrowback)
   return err:match("%a+:(%d+).-") or 0
 end
 
@@ -82,6 +84,10 @@ end
   @param  (same as default error function)
 --]]
 function _G.error(msg, lvl)
+  callerThrowback = 6 -- trick the caller system into not pointing here
   e(msg)
-  nativeError(msg, parseThrowbackLevel(lvl))
+  callerThrowback = 5
+  nativeError(msg, (lvl == 0 and 0 or lvl and (lvl + 1) or 2))
 end
+
+i("Loading API: Log.lua")
