@@ -1,7 +1,7 @@
 local apisLoadOrder = {
   -- Log.lua was removed as it is loaded independently
   "utils.lua",
-  "HTTPNetworking.lua",
+  "Networking.lua",
   "ai.lua",
   "char.lua",
   "gui.lua",
