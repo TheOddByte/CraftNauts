@@ -184,7 +184,7 @@ local function loadAPIs()
     local env = setmetatable({}, { __index = _G })
     local func, err = loadfile(path)
     if not func or err then
-      return false, error(err, 0)
+      error(err, 0)
     end
     setfenv(func, env)
     func()
