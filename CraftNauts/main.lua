@@ -34,6 +34,7 @@ end
 
 --[[
     Safe pairs function, doesn't error when table is nil
+    Made by KaoS, who made the function initially.
     
     @param _t table the table to iterate through
     @return         key
